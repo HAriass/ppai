@@ -94,7 +94,6 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ConsultarEncuestaVista().setVisible(true);
             }
         });
     }

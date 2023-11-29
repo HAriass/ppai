@@ -11,8 +11,6 @@ public class PPAI {
         PantallaEncuesta pantallaEncuesta = new PantallaEncuesta();
         GestorEncuesta gestorEncuesta = new GestorEncuesta();
         pantallaEncuesta.setGestor(gestorEncuesta);
-        gestorEncuesta.setPantalla(pantallaEncuesta);
-
-        pantallaEncuesta.setVisible(true);
+        gestorEncuesta.setPantalla(pantallaEncuesta);  
     }
 }

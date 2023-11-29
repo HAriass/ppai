@@ -15,6 +15,7 @@ public class PantallaEncuesta extends javax.swing.JFrame {
     //Constructor
     public PantallaEncuesta() {
         initComponents();
+        this.habilitarPantalla();
     }
 
     
@@ -65,7 +66,10 @@ public class PantallaEncuesta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnconsultarencuestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnconsultarencuestaActionPerformed
-        this.habilitarPantalla();
+        ConsultarEncuestaVista vistaConsultar = new ConsultarEncuestaVista();
+        vistaConsultar.setVisible(true);
+        gestor.consultarEncuesta();
+        this.dispose();
     }//GEN-LAST:event_btnconsultarencuestaActionPerformed
 
 
@@ -73,7 +77,6 @@ public class PantallaEncuesta extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PantallaEncuesta().setVisible(true);
             }
         });
     }
@@ -86,7 +89,8 @@ public class PantallaEncuesta extends javax.swing.JFrame {
     
     //Metodos propios
     public void habilitarPantalla(){
-        gestor.consultarEncuesta();
+        this.setVisible(true);
+        
     }
     public void solicitarPeriodoLlamada() {
         this.tomarFechaInicioPeriodo();
