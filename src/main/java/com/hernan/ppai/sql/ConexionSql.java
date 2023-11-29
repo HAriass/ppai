@@ -1,4 +1,4 @@
-package Sql;
+package com.hernan.ppai.sql;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import javax.swing.JOptionPane;

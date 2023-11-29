@@ -1,5 +1,5 @@
 
-package vista;
+package com.hernan.ppai.vista;
 
 import com.hernan.ppai.gestor.GestorEncuesta;
 import java.util.Date;

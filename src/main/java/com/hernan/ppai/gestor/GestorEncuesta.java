@@ -1,8 +1,8 @@
 package com.hernan.ppai.gestor;
 
 import java.util.Date;
-import vista.ConsultarEncuestaVista;
-import vista.PantallaEncuesta;
+import com.hernan.ppai.vista.ConsultarEncuestaVista;
+import com.hernan.ppai.vista.PantallaEncuesta;
 
 public class GestorEncuesta {
     

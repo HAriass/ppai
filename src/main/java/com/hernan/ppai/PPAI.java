@@ -2,7 +2,7 @@
 package com.hernan.ppai;
 
 import com.hernan.ppai.gestor.GestorEncuesta;
-import vista.PantallaEncuesta;
+import com.hernan.ppai.vista.PantallaEncuesta;
 
 
 public class PPAI {

@@ -1,5 +1,5 @@
 
-package vista;
+package com.hernan.ppai.vista;
 
 import java.util.Date;
 
