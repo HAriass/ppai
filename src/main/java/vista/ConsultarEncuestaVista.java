@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class ConsultarEncuestaVista extends javax.swing.JFrame {
     //Atributos
-    PantallaEncuesta pantallaEncuesta = new PantallaEncuesta();
+    PantallaEncuesta pantallaEncuesta;
     private Date fechaInicio;
     private Date fechaFin;
     
@@ -82,12 +82,16 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnconsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnconsultarActionPerformed
-        
-        this.fechaInicio = fechainicio.getDate();
-        this.fechaFin = fechafin.getDate();
-        
-        pantallaEncuesta.tomarFechaInicioPeriodo();
-        pantallaEncuesta.tomarFechaFinPeriodo();
+       if (pantallaEncuesta != null) {
+            this.fechaInicio = fechainicio.getDate();
+            this.fechaFin = fechafin.getDate();
+
+            pantallaEncuesta.tomarFechaInicioPeriodo();
+            pantallaEncuesta.tomarFechaFinPeriodo();
+        } else {
+            // Manejar la situación donde pantallaEncuesta es null
+            System.out.println("Error: pantallaEncuesta es null");
+        }
     }//GEN-LAST:event_btnconsultarActionPerformed
 
     public static void main(String args[]) {
@@ -119,6 +123,11 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
     public Date getFechainicio() {
         return fechaInicio;
     }
+
+    void setPantallaEncuesta(PantallaEncuesta pantallaEncuesta) {
+        this.pantallaEncuesta = pantallaEncuesta;
+    }
+
     
     
 }

@@ -66,8 +66,9 @@ public class PantallaEncuesta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnconsultarencuestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnconsultarencuestaActionPerformed
-        ConsultarEncuestaVista vistaConsultar = new ConsultarEncuestaVista();
-        vistaConsultar.setVisible(true);
+       // ConsultarEncuestaVista vistaConsultar = new ConsultarEncuestaVista(); // Esto no es necesario
+        consultarEncuestaVista.setPantallaEncuesta(this);  // Establecer la instancia correcta
+        consultarEncuestaVista.setVisible(true);
         gestor.consultarEncuesta();
         this.dispose();
     }//GEN-LAST:event_btnconsultarencuestaActionPerformed
@@ -95,7 +96,6 @@ public class PantallaEncuesta extends javax.swing.JFrame {
     public void solicitarPeriodoLlamada() {
         this.tomarFechaInicioPeriodo();
         this.tomarFechaFinPeriodo();
-        this.gestor.tomarPeriodoLlamada(this.fechaInicio, this.fechaFin);
     }
 
     public void tomarFechaInicioPeriodo() {
@@ -104,10 +104,18 @@ public class PantallaEncuesta extends javax.swing.JFrame {
 
     public void tomarFechaFinPeriodo() {
         this.fechaFin = consultarEncuestaVista.getFechafin();
-        
+        this.llamarMetodo();
     }
 
     public void setGestor(GestorEncuesta gestorEncuesta) {
         this.gestor = gestorEncuesta;
+    }
+
+    private void llamarMetodo() {
+        this.gestor.tomarPeriodoLlamada(this.fechaInicio, this.fechaFin);
+
+    }
+    public void setConsultarEncuestaVista(ConsultarEncuestaVista consultarEncuestaVista) {
+        this.consultarEncuestaVista = consultarEncuestaVista;
     }
 }
