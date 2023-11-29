@@ -1,5 +1,12 @@
 package com.hernan.ppai.dominio;
 
-public class CambioEstado {
+import java.util.Date;
 
+public class CambioEstado {
+    
+    private Date fechaHoraInicio;
+
+    public Date getFechaHoraInicio(){
+        return fechaHoraInicio;
+    }
 }
