@@ -6,6 +6,6 @@ import java.util.ArrayList;
 
 public interface IAgregado {
     
-    IIterador crearIterador(ArrayList<Object> listaElementos);
+    IIterador crearIterador(ArrayList<Llamada> listaElementos);
     
 }

@@ -18,7 +18,7 @@ public class GestorEncuesta implements IAgregado{
     PantallaEncuesta pantalla;
     private Date fechaInicio;
     private Date fechaFin;
-    private ArrayList<Object> listaLlamadas = new ArrayList<>();
+    private ArrayList<Llamada> listaLlamadas = new ArrayList<>();
     private ArrayList<Object> filtros = new ArrayList<>();
     
     ConexionSql conexion = new ConexionSql();
@@ -82,7 +82,8 @@ public class GestorEncuesta implements IAgregado{
         iteradorLlamada.primero();
         while (iteradorLlamada.haTerminado()==false) {
             iteradorLlamada.haTerminado();
-            iteradorLlamada.actual().cumpleFiltro(this.filtros);
+            iteradorLlamada.actual(filtros);
+            iteradorLlamada.siguiente();
 
             
         }
@@ -98,7 +99,7 @@ public class GestorEncuesta implements IAgregado{
     }
 
     @Override
-    public IIterador crearIterador(ArrayList<Object> listaElementos) {
+    public IIterador crearIterador(ArrayList<Llamada> listaElementos) {
         IteradorLlamada iteradorLlamada = new IteradorLlamada(listaLlamadas);
         return iteradorLlamada;
     } 

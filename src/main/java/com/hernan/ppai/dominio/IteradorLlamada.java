@@ -1,19 +1,19 @@
 package com.hernan.ppai.dominio;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class IteradorLlamada implements IIterador {
 
-    private ArrayList<Object> llamadas; 
+    private ArrayList<Llamada> llamadas; 
 
-    public ArrayList<Object> getLlamadas() {
+    public ArrayList<Llamada> getLlamadas() {
         return llamadas;
     }
  
-
     private int indice;
 
-    public IteradorLlamada(ArrayList<Object> llamadas) {
+    public IteradorLlamada(ArrayList<Llamada> llamadas) {
         this.llamadas = llamadas;
         this.indice = 0;
     }
@@ -28,12 +28,14 @@ public class IteradorLlamada implements IIterador {
         indice++;
     }
 
-    @Override
-    public Object actual() {
-        if (haTerminado()) {
-            return null;
+    public Llamada actual(ArrayList<Object> filtros) {
+        Llamada llamadaActual = llamadas.get(indice); 
+        int id = indice+1;
+        boolean siCumple = this.cumpleFiltro(filtros,llamadaActual,id);
+        if (siCumple == true){
+            return llamadaActual;
         }
-        return llamadas.get(indice); 
+        return null;
     }
 
     @Override
@@ -41,10 +43,14 @@ public class IteradorLlamada implements IIterador {
         return indice >= llamadas.size();
     }
 
-    @Override
-    public boolean cumpleFiltro(ArrayList<Object> filtros) {
-        this.actual().
-        return true;
+    public boolean cumpleFiltro(ArrayList<Object> filtros,Object llamadaActual,int id) {
+        if (llamadaActual instanceof Llamada) {
+            ((Llamada) llamadaActual).esDePeriodo((Date) filtros.get(0), (Date) filtros.get(1), id);
+            return true;
+        }
+        return false;  // Manejar el caso en que llamadaActual no sea una instancia de Llamada
     }
+
+
 
 }
