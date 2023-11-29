@@ -43,13 +43,21 @@ public class IteradorLlamada implements IIterador {
         return indice >= llamadas.size();
     }
 
-    public boolean cumpleFiltro(ArrayList<Object> filtros,Object llamadaActual,int id) {
+    public boolean cumpleFiltro(ArrayList<Object> filtros, Object llamadaActual, int id) {
         if (llamadaActual instanceof Llamada) {
-            ((Llamada) llamadaActual).esDePeriodo((Date) filtros.get(0), (Date) filtros.get(1), id);
-            return true;
+            // Verificar si la llamada actual cumple con el período
+            boolean cumplePeriodo = ((Llamada) llamadaActual).esDePeriodo((Date) filtros.get(0), (Date) filtros.get(1), id);
+
+            // Verificar si la llamada actual tiene encuesta respondida
+            boolean encuestaRespondida = ((Llamada) llamadaActual).tieneEncuestaRespondida();
+
+            // Retornar true solo si cumple con ambos criterios
+            return cumplePeriodo && encuestaRespondida;
         }
-        return false;  // Manejar el caso en que llamadaActual no sea una instancia de Llamada
+        // Manejar el caso en que llamadaActual no sea una instancia de Llamada
+        return false;
     }
+
 
 
 

@@ -25,6 +25,7 @@ public class GestorEncuesta implements IAgregado{
     
     private ArrayList<Llamada> llamadasPeriodo = new ArrayList<>();
     private IteradorLlamada iteradorLlamada;
+    private ArrayList<Llamada> llamadasFiltradas = new ArrayList<>();
 
     public void consultarEncuesta() {
         this.buscarPeriodo();
@@ -82,11 +83,10 @@ public class GestorEncuesta implements IAgregado{
         iteradorLlamada.primero();
         while (iteradorLlamada.haTerminado()==false) {
             iteradorLlamada.haTerminado();
-            iteradorLlamada.actual(filtros);
+            System.out.println( iteradorLlamada.actual(filtros));
             iteradorLlamada.siguiente();
-
-            
         }
+        
         
     }
     

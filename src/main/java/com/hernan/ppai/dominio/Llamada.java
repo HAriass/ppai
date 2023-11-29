@@ -31,9 +31,10 @@ public class Llamada {
         return duracion;
     }
 
-    public boolean isEncuestaEnviada() {
+    public boolean tieneEncuestaRespondida() {
         return encuestaEnviada;
     }
+
     
     
     
@@ -88,7 +89,7 @@ public class Llamada {
 
         // Verificar si fechaMasTempranaDate está entre fechaInicio y fechaFin
         if (fechaMasTempranaDate.after(fechaInicio) && fechaMasTempranaDate.before(fechaFin)) {
-            System.out.println("Fecha más temprana: " + fechaMasTemprana);
+            //System.out.println("Fecha más temprana: " + fechaMasTemprana);
             return true;
              
         } else {
