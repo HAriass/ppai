@@ -104,7 +104,8 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnconsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnconsultarActionPerformed
-        
+        txtllamadasfiltradas.setText("");
+        cbllamadafiltrada.removeAllItems();
         if (pantallaEncuesta != null) {
             this.fechaInicio = fechainicio.getDate();
             this.fechaFin = fechafin.getDate();
