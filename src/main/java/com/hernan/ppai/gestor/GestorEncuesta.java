@@ -9,7 +9,9 @@ import java.util.Date;
 import com.hernan.ppai.vista.ConsultarEncuestaVista;
 import com.hernan.ppai.vista.PantallaEncuesta;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -20,6 +22,8 @@ public class GestorEncuesta implements IAgregado{
     private Date fechaFin;
     private ArrayList<Llamada> listaLlamadas = new ArrayList<>();
     private ArrayList<Object> filtros = new ArrayList<>();
+    private Llamada seleccionLlamada;
+    private String nombreClienteYEstado;
     
     ConexionSql conexion = new ConexionSql();
     
@@ -56,8 +60,9 @@ public class GestorEncuesta implements IAgregado{
                     int id = resultSet.getInt("id");
                     int duracion = resultSet.getInt("duracion");
                     boolean encuestaEnviada = resultSet.getBoolean("encuesta enviada");
+                    int cliente = resultSet.getInt("cliente");
 
-                    Llamada llamada = new Llamada(id, duracion, encuestaEnviada);
+                    Llamada llamada = new Llamada(id, duracion, encuestaEnviada, cliente);
 
                     this.listaLlamadas.add(llamada);
                 }
@@ -89,8 +94,9 @@ public class GestorEncuesta implements IAgregado{
                 iteradorLlamada.siguiente();
             }
             System.out.println(llamadasFiltradas);
-            this.pantalla.cargarLlamadasFiltradas(llamadasFiltradas);
+            this.pantalla.mostrarDatosLlamada(llamadasFiltradas);
         }
+        
     }
 
     
@@ -107,7 +113,56 @@ public class GestorEncuesta implements IAgregado{
         IteradorLlamada iteradorLlamada = new IteradorLlamada(listaLlamadas);
         return iteradorLlamada;
     } 
-    
-    
-    
+
+    public void tomarSeleccionLlamada(int llamadaSeleccionada) {
+        this.buscarDatosLlamada(llamadaSeleccionada);
+    }
+
+    private void buscarDatosLlamada(int llamadaSeleccionada) {
+        
+        Connection connection = conexion.conectar();
+
+            if (connection != null) {
+                try {
+                    // Crear una consulta preparada con un parámetro
+                    String sql = "SELECT * FROM llamada WHERE id = ?";
+                    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                        // Establecer el valor del parámetro
+                        preparedStatement.setInt(1, llamadaSeleccionada);  // Reemplaza tuId con el valor real del ID
+
+                        // Ejecutar la consulta y obtener los resultados
+                        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                            // Iterar sobre los resultados y mostrar la información
+                            while (resultSet.next()) {
+                                int id = resultSet.getInt("id");
+                                int duracion = resultSet.getInt("duracion");
+                                boolean encuestaEnviada =resultSet.getBoolean("encuesta enviada");
+                                int cliente = resultSet.getInt("cliente");
+                                this.seleccionLlamada = new Llamada(id, duracion, encuestaEnviada,cliente);
+                            }
+                        }
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } finally {
+                    // Cerrar la conexión en el bloque finally para asegurar que se cierre incluso en caso de excepción
+                    try {
+                        connection.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            
+            this.nombreClienteYEstado = this.seleccionLlamada.getNombreClienteDeLlamada();
+            System.out.println(this.nombreClienteYEstado);
+        
+    }
+            
+        
 }
+    
+    
+    
+    
+    

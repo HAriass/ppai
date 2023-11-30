@@ -44,6 +44,12 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
             }
         });
 
+        cbllamadafiltrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbllamadafiltradaActionPerformed(evt);
+            }
+        });
+
         txtllamadasfiltradas.setColumns(20);
         txtllamadasfiltradas.setRows(5);
         jScrollPane2.setViewportView(txtllamadasfiltradas);
@@ -119,6 +125,11 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnconsultarActionPerformed
 
+    private void cbllamadafiltradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbllamadafiltradaActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_cbllamadafiltradaActionPerformed
+
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -142,6 +153,7 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
     //Metodos Propios
     public ConsultarEncuestaVista() {
         initComponents();
+        
     }
 
     public Date getFechafin() {
@@ -156,15 +168,36 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
         this.pantallaEncuesta = pantallaEncuesta;
     }
     
-    public void cargarLlamadasFiltradas(ArrayList<Llamada> llamadasFiltradas) {
-        
-        for (Llamada l : llamadasFiltradas ){
-            int llamadaId = l.getId();
-            cbllamadafiltrada.addItem(""+llamadaId);
-            txtllamadasfiltradas.append(l.toString()+"\n");
-        }
+    public void mostrarDatosLlamada(ArrayList<Llamada> llamadasFiltradas) {
+        // Limpiar el JComboBox antes de agregar nuevos elementos
+        cbllamadafiltrada.removeAllItems();
 
+        for (Llamada l : llamadasFiltradas){
+            int llamadaId = l.getId();
+            cbllamadafiltrada.addItem(String.valueOf(llamadaId));
+            txtllamadasfiltradas.append(l.toString() + "\n");
+        }
     }
+
+    public int tomarSeleccionLlamada() {
+        // Obtener el índice seleccionado en el JComboBox
+        int selectedIndex = cbllamadafiltrada.getSelectedIndex();
+
+        // Validar si se seleccionó algún elemento
+        if (selectedIndex != -1) {
+            // Obtener el valor seleccionado (en este caso, el ID de la llamada)
+            int llamadaSeleccionada = Integer.parseInt((String) cbllamadafiltrada.getSelectedItem());
+
+            // Realizar las operaciones necesarias con la llamada seleccionada
+            System.out.println("Llamada seleccionada: " + llamadaSeleccionada);
+
+            return llamadaSeleccionada;
+        } else {
+            // Manejar la situación donde no se ha seleccionado ningún elemento
+            System.out.println("Ninguna llamada seleccionada");
+            return -1; // O cualquier otro valor que indique que no se seleccionó ninguna llamada
+        }
+    }               
 
 
     

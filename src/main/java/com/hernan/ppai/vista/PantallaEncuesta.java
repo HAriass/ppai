@@ -13,6 +13,7 @@ public class PantallaEncuesta extends javax.swing.JFrame {
     ConsultarEncuestaVista consultarEncuestaVista = new ConsultarEncuestaVista();
     private Date fechaInicio;
     private Date fechaFin;
+    private int llamadaSeleccionada;
     
     //Constructor
     public PantallaEncuesta() {
@@ -120,7 +121,13 @@ public class PantallaEncuesta extends javax.swing.JFrame {
     public void setConsultarEncuestaVista(ConsultarEncuestaVista consultarEncuestaVista) {
         this.consultarEncuestaVista = consultarEncuestaVista;
     }
-    public void cargarLlamadasFiltradas(ArrayList<Llamada> llamadasFiltradas){
-        this.consultarEncuestaVista.cargarLlamadasFiltradas(llamadasFiltradas);
+    public void mostrarDatosLlamada(ArrayList<Llamada> llamadasFiltradas){
+        this.consultarEncuestaVista.mostrarDatosLlamada(llamadasFiltradas);
+        this.tomarSeleccionLlamada();
+    }
+    
+    public void tomarSeleccionLlamada(){
+        this.llamadaSeleccionada = consultarEncuestaVista.tomarSeleccionLlamada();
+        gestor.tomarSeleccionLlamada(this.llamadaSeleccionada);
     }
 }
