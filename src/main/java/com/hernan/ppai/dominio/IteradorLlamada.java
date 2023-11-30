@@ -6,13 +6,12 @@ import java.util.Date;
 public class IteradorLlamada implements IIterador {
 
     private ArrayList<Llamada> llamadas; 
+    private int indice;
 
     public ArrayList<Llamada> getLlamadas() {
         return llamadas;
     }
  
-    private int indice;
-
     public IteradorLlamada(ArrayList<Llamada> llamadas) {
         this.llamadas = llamadas;
         this.indice = 0;
@@ -30,13 +29,14 @@ public class IteradorLlamada implements IIterador {
 
     public Llamada actual(ArrayList<Object> filtros) {
         Llamada llamadaActual = llamadas.get(indice); 
-        int id = indice+1;
-        boolean siCumple = this.cumpleFiltro(filtros,llamadaActual,id);
-        if (siCumple == true){
+        int id = indice + 1;
+        boolean siCumple = this.cumpleFiltro(filtros, llamadaActual, id);
+        if (siCumple) {
             return llamadaActual;
         }
         return null;
     }
+
 
     @Override
     public boolean haTerminado() {

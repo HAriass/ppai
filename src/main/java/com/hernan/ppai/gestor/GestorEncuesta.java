@@ -55,14 +55,12 @@ public class GestorEncuesta implements IAgregado{
                     int id = resultSet.getInt("id");
                     int duracion = resultSet.getInt("duracion");
                     boolean encuestaEnviada = resultSet.getBoolean("encuesta enviada");
-                    
-                    Llamada llamada = new Llamada(id,duracion,encuestaEnviada);
-                    
+
+                    Llamada llamada = new Llamada(id, duracion, encuestaEnviada);
+
                     this.listaLlamadas.add(llamada);
-                    
-                   
                 }
-                
+
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -74,21 +72,24 @@ public class GestorEncuesta implements IAgregado{
                 }
             }
         }
-        if (fechaInicio!=null && fechaFin!=null){
+
+        if (fechaInicio != null && fechaFin != null) {
             this.filtros.add(fechaInicio);
             this.filtros.add(fechaFin);
             this.iteradorLlamada = (IteradorLlamada) this.crearIterador(listaLlamadas);
-            
+
+            iteradorLlamada.primero();
+            while (!iteradorLlamada.haTerminado()) {
+                Llamada llamadaActual = iteradorLlamada.actual(filtros);
+                if (llamadaActual != null) {
+                    llamadasFiltradas.add(llamadaActual);
+                }
+                iteradorLlamada.siguiente();
+            }
+            System.out.println(llamadasFiltradas);
         }
-        iteradorLlamada.primero();
-        while (iteradorLlamada.haTerminado()==false) {
-            iteradorLlamada.haTerminado();
-            System.out.println( iteradorLlamada.actual(filtros));
-            iteradorLlamada.siguiente();
-        }
-        
-        
     }
+
     
     
     public void setPantalla(PantallaEncuesta pantallaEncuesta) {
