@@ -41,6 +41,7 @@ public class GestorEncuesta implements IAgregado{
     }
     
     public void buscarLlamadaConEncuesta(){
+        
         Connection connection = conexion.conectar();
         if (connection != null) {
             try {
@@ -72,13 +73,14 @@ public class GestorEncuesta implements IAgregado{
                 }
             }
         }
-
+        filtros.clear();
         if (fechaInicio != null && fechaFin != null) {
             this.filtros.add(fechaInicio);
             this.filtros.add(fechaFin);
             this.iteradorLlamada = (IteradorLlamada) this.crearIterador(listaLlamadas);
 
             iteradorLlamada.primero();
+            llamadasFiltradas.clear();
             while (!iteradorLlamada.haTerminado()) {
                 Llamada llamadaActual = iteradorLlamada.actual(filtros);
                 if (llamadaActual != null) {
@@ -87,6 +89,7 @@ public class GestorEncuesta implements IAgregado{
                 iteradorLlamada.siguiente();
             }
             System.out.println(llamadasFiltradas);
+            this.pantalla.cargarLlamadasFiltradas(llamadasFiltradas);
         }
     }
 

@@ -1,7 +1,9 @@
 
 package com.hernan.ppai.vista;
 
+import com.hernan.ppai.dominio.Llamada;
 import com.hernan.ppai.gestor.GestorEncuesta;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class PantallaEncuesta extends javax.swing.JFrame {
@@ -117,5 +119,8 @@ public class PantallaEncuesta extends javax.swing.JFrame {
     }
     public void setConsultarEncuestaVista(ConsultarEncuestaVista consultarEncuestaVista) {
         this.consultarEncuestaVista = consultarEncuestaVista;
+    }
+    public void cargarLlamadasFiltradas(ArrayList<Llamada> llamadasFiltradas){
+        this.consultarEncuestaVista.cargarLlamadasFiltradas(llamadasFiltradas);
     }
 }

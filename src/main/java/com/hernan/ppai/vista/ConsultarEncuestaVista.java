@@ -1,13 +1,17 @@
 
 package com.hernan.ppai.vista;
 
+import com.hernan.ppai.dominio.Llamada;
+import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.DefaultListModel;
 
 public class ConsultarEncuestaVista extends javax.swing.JFrame {
     //Atributos
     PantallaEncuesta pantallaEncuesta;
     private Date fechaInicio;
     private Date fechaFin;
+    
     
     //Metodos netbeans
     @SuppressWarnings("unchecked")
@@ -20,6 +24,9 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
         fechafin = new com.toedter.calendar.JDateChooser();
         jLabel3 = new javax.swing.JLabel();
         btnconsultar = new javax.swing.JButton();
+        cbllamadafiltrada = new javax.swing.JComboBox<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtllamadasfiltradas = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -37,12 +44,19 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
             }
         });
 
+        txtllamadasfiltradas.setColumns(20);
+        txtllamadasfiltradas.setRows(5);
+        jScrollPane2.setViewportView(txtllamadasfiltradas);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(67, 67, 67)
+                        .addComponent(jLabel3))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(41, 41, 41)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -54,40 +68,50 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
                             .addComponent(fechafin, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(79, 79, 79)
-                        .addComponent(btnconsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(67, 67, 67)
-                        .addComponent(jLabel3)))
-                .addContainerGap(47, Short.MAX_VALUE))
+                        .addComponent(btnconsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(60, 60, 60)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(cbllamadafiltrada, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(fechainicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2)
-                    .addComponent(fechafin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(44, 44, 44)
-                .addComponent(btnconsultar)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addComponent(fechainicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(fechafin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(28, 28, 28)
+                        .addComponent(btnconsultar))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(22, 22, 22)
+                .addComponent(cbllamadafiltrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(88, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnconsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnconsultarActionPerformed
-       if (pantallaEncuesta != null) {
+        
+        if (pantallaEncuesta != null) {
             this.fechaInicio = fechainicio.getDate();
             this.fechaFin = fechafin.getDate();
 
             pantallaEncuesta.tomarFechaInicioPeriodo();
             pantallaEncuesta.tomarFechaFinPeriodo();
+            
         } else {
             // Manejar la situación donde pantallaEncuesta es null
             System.out.println("Error: pantallaEncuesta es null");
@@ -104,11 +128,14 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnconsultar;
+    private javax.swing.JComboBox<String> cbllamadafiltrada;
     private com.toedter.calendar.JDateChooser fechafin;
     private com.toedter.calendar.JDateChooser fechainicio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea txtllamadasfiltradas;
     // End of variables declaration//GEN-END:variables
 
     //Metodos Propios
@@ -127,6 +154,17 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
     void setPantallaEncuesta(PantallaEncuesta pantallaEncuesta) {
         this.pantallaEncuesta = pantallaEncuesta;
     }
+    
+    public void cargarLlamadasFiltradas(ArrayList<Llamada> llamadasFiltradas) {
+        
+        for (Llamada l : llamadasFiltradas ){
+            int llamadaId = l.getId();
+            cbllamadafiltrada.addItem(""+llamadaId);
+            txtllamadasfiltradas.append(l.toString()+"\n");
+        }
+
+    }
+
 
     
     

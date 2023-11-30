@@ -15,6 +15,13 @@ public class Llamada {
     private boolean encuestaEnviada;
     private ArrayList<CambioEstado> listaCambioEstado = new ArrayList<>();
     ConexionSql conexion = new ConexionSql();
+
+    @Override
+    public String toString() {
+        return "Llamada " + "id=" + id + ' ';
+    }
+
+
     
 
     public Llamada(int id, int duracion, boolean encuestaEnviada) {
