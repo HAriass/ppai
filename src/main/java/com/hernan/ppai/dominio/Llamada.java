@@ -19,7 +19,13 @@ public class Llamada implements IAgregado<RespuestaCliente>{
     private String nombreClienteLlamada;
     private ArrayList<CambioEstado> listaCambioEstado2 = new ArrayList<>();
     private String estadoActual;
+    private ArrayList<Object> filtros = new ArrayList<>();
+
+    
     ConexionSql conexion = new ConexionSql();
+    private ArrayList<RespuestaCliente> respuestasCliente;
+    private IteradorRespuesta iteradorRespuesta;
+    private ArrayList<String> listaRespuestasCliente;
     
 
     @Override
@@ -212,16 +218,25 @@ public boolean determinarEstadoInicial(Date fechaInicio, Date fechaFin, int iden
 
     @Override
     public IIterador<RespuestaCliente> crearIterador(ArrayList<RespuestaCliente> listaElementos) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-/**
-    public void getRespuestas() {
-        this.crearIterador(listaElementos)
-        //return respuestas;
+        IteradorRespuesta iteradorRespuesta = new IteradorRespuesta(listaElementos);
+        return iteradorRespuesta;
     }
 
-
-**/
+    public void getRespuestas(ArrayList<RespuestaCliente> respuestasCliente, int idLlamada) {
+        this.filtros.add(idLlamada);
+        this.respuestasCliente = respuestasCliente;
+        this.iteradorRespuesta = (IteradorRespuesta) this.crearIterador(this.respuestasCliente);
+        
+        this.iteradorRespuesta.primero();
+        
+        while (!iteradorRespuesta.haTerminado()) {            
+            RespuestaCliente respuestaActual = iteradorRespuesta.actual(filtros);
+            this.listaRespuestasCliente = respuestaActual.getRespuestaSeleccionada(idLlamada);
+            this.iteradorRespuesta.siguiente();
+        }
+        System.out.println(this.listaRespuestasCliente);
+        
+    }
 
 } 
 

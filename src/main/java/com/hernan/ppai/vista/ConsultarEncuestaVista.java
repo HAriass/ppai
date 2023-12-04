@@ -4,14 +4,12 @@ package com.hernan.ppai.vista;
 import com.hernan.ppai.dominio.Llamada;
 import java.util.ArrayList;
 import java.util.Date;
-import javax.swing.DefaultListModel;
 
 public class ConsultarEncuestaVista extends javax.swing.JFrame {
     //Atributos
     PantallaEncuesta pantallaEncuesta;
     private Date fechaInicio;
     private Date fechaFin;
-    
     
     //Metodos netbeans
     @SuppressWarnings("unchecked")
@@ -146,9 +144,8 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
 
     private void btnseleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnseleccionarActionPerformed
         // TODO add your handling code here:
-        this.tomarSeleccionLlamada();
+        this.pantallaEncuesta.tomarSeleccionLlamada();
     }//GEN-LAST:event_btnseleccionarActionPerformed
-
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -211,6 +208,7 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
 
             // Realizar las operaciones necesarias con la llamada seleccionada
             System.out.println("Llamada seleccionada: " + llamadaSeleccionada);
+            
 
             return llamadaSeleccionada;
         } else {

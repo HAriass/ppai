@@ -4,6 +4,7 @@ import com.hernan.ppai.dominio.IAgregado;
 import com.hernan.ppai.dominio.IIterador;
 import com.hernan.ppai.dominio.IteradorLlamada;
 import com.hernan.ppai.dominio.Llamada;
+import com.hernan.ppai.dominio.RespuestaCliente;
 import com.hernan.ppai.sql.ConexionSql;
 import java.util.Date;
 import com.hernan.ppai.vista.ConsultarEncuestaVista;
@@ -30,6 +31,7 @@ public class GestorEncuesta implements IAgregado<Llamada>{
     private ArrayList<Llamada> llamadasPeriodo = new ArrayList<>();
     private IteradorLlamada iteradorLlamada;
     private ArrayList<Llamada> llamadasFiltradas = new ArrayList<>();
+    private ArrayList<RespuestaCliente> respuestasCliente = new ArrayList<>();
 
     public void consultarEncuesta() {
         this.buscarPeriodo();
@@ -139,6 +141,7 @@ public class GestorEncuesta implements IAgregado<Llamada>{
                                 boolean encuestaEnviada =resultSet.getBoolean("encuesta enviada");
                                 int cliente = resultSet.getInt("cliente");
                                 this.seleccionLlamada = new Llamada(id, duracion, encuestaEnviada,cliente);
+                                
                             }
                         }
                     }
@@ -156,18 +159,57 @@ public class GestorEncuesta implements IAgregado<Llamada>{
             
             this.nombreClienteYEstado = this.seleccionLlamada.getNombreClienteDeLlamada();
             int duracionLlamadaSeleccionada = this.getDuracion();
-            //this.obtenerDatosEncuesta();
+            this.obtenerDatosEncuesta();
         
     }
     
     public int getDuracion(){
         return this.seleccionLlamada.getDuracion();  
     }
-/**
+
     private void obtenerDatosEncuesta() {
-        this.seleccionLlamada.getRespuestas();
+        respuestasCliente = this.buscarRespuestasBD();
+        int idLlamada = seleccionLlamada.getId();
+        this.seleccionLlamada.getRespuestas(respuestasCliente,idLlamada);
     }
-        */
+
+    private ArrayList<RespuestaCliente> buscarRespuestasBD() {
+        
+        Connection connection = conexion.conectar();
+
+            if (connection != null) {
+                try {
+                    // Crear una consulta preparada con un parámetro
+                    String sql = "SELECT * FROM respuestacliente";
+                    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+                        // Ejecutar la consulta y obtener los resultados
+                        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                            // Iterar sobre los resultados y mostrar la información
+                            while (resultSet.next()) {
+                                int id = resultSet.getInt("id");
+                                String descripcion = resultSet.getString("descripcion");
+                                int llamada = resultSet.getInt("llamada");
+                                this.respuestasCliente.add(new RespuestaCliente(id, descripcion, llamada));
+                            }
+                        }
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } finally {
+                    // Cerrar la conexión en el bloque finally para asegurar que se cierre incluso en caso de excepción
+                    try {
+                        connection.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            
+        return this.respuestasCliente;
+        
+    }
+
         
 }
     

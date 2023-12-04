@@ -124,10 +124,14 @@ public class PantallaEncuesta extends javax.swing.JFrame {
     public void mostrarDatosLlamada(ArrayList<Llamada> llamadasFiltradas){
         this.consultarEncuestaVista.mostrarDatosLlamada(llamadasFiltradas);
         this.tomarSeleccionLlamada();
+        
     }
     
-    public void tomarSeleccionLlamada(){
+    public void tomarSeleccionLlamada() {
+        // Verificar si el botón fue presionado
+        // Tomar la selección de la llamada
         this.llamadaSeleccionada = consultarEncuestaVista.tomarSeleccionLlamada();
         gestor.tomarSeleccionLlamada(this.llamadaSeleccionada);
     }
+
 }
