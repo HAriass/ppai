@@ -3,7 +3,7 @@ package com.hernan.ppai.dominio;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class IteradorLlamada implements IIterador {
+public class IteradorLlamada implements IIterador<Llamada> {
 
     private ArrayList<Llamada> llamadas; 
     private int indice;

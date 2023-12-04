@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-public class Llamada {
+public class Llamada implements IAgregado<RespuestaCliente>{
     private int id;
     private int duracion;
     private boolean encuestaEnviada;
@@ -24,7 +24,7 @@ public class Llamada {
 
     @Override
     public String toString() {
-        return "Llamada " + "id=" + id + ' ';
+        return "Llamada " + id + ' ';
     }
 
     public Llamada(int id, int duracion, boolean encuestaEnviada, int cliente) {
@@ -210,7 +210,18 @@ public boolean determinarEstadoInicial(Date fechaInicio, Date fechaFin, int iden
             return cambioEstadoConFechaMasReciente.getNombreEstado();
     }
 
+    @Override
+    public IIterador<RespuestaCliente> crearIterador(ArrayList<RespuestaCliente> listaElementos) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+/**
+    public void getRespuestas() {
+        this.crearIterador(listaElementos)
+        //return respuestas;
+    }
 
+
+**/
 
 } 
 

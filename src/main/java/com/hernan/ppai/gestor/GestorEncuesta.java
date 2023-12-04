@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class GestorEncuesta implements IAgregado{
+public class GestorEncuesta implements IAgregado<Llamada>{
     
     PantallaEncuesta pantalla;
     private Date fechaInicio;
@@ -93,7 +93,6 @@ public class GestorEncuesta implements IAgregado{
                 }
                 iteradorLlamada.siguiente();
             }
-            System.out.println(llamadasFiltradas);
             this.pantalla.mostrarDatosLlamada(llamadasFiltradas);
         }
         
@@ -116,6 +115,7 @@ public class GestorEncuesta implements IAgregado{
 
     public void tomarSeleccionLlamada(int llamadaSeleccionada) {
         this.buscarDatosLlamada(llamadaSeleccionada);
+
     }
 
     private void buscarDatosLlamada(int llamadaSeleccionada) {
@@ -155,10 +155,19 @@ public class GestorEncuesta implements IAgregado{
             }
             
             this.nombreClienteYEstado = this.seleccionLlamada.getNombreClienteDeLlamada();
-            System.out.println(this.nombreClienteYEstado);
+            int duracionLlamadaSeleccionada = this.getDuracion();
+            //this.obtenerDatosEncuesta();
         
     }
-            
+    
+    public int getDuracion(){
+        return this.seleccionLlamada.getDuracion();  
+    }
+/**
+    private void obtenerDatosEncuesta() {
+        this.seleccionLlamada.getRespuestas();
+    }
+        */
         
 }
     

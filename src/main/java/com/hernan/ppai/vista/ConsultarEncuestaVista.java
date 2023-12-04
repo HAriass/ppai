@@ -27,6 +27,7 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
         cbllamadafiltrada = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtllamadasfiltradas = new javax.swing.JTextArea();
+        btnseleccionar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,6 +55,13 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
         txtllamadasfiltradas.setRows(5);
         jScrollPane2.setViewportView(txtllamadasfiltradas);
 
+        btnseleccionar.setText("Seleccionar");
+        btnseleccionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnseleccionarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -80,6 +88,10 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
                     .addComponent(cbllamadafiltrada, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE))
                 .addContainerGap(26, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnseleccionar)
+                .addGap(138, 138, 138))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,7 +115,9 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(22, 22, 22)
                 .addComponent(cbllamadafiltrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(88, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnseleccionar)
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         pack();
@@ -130,6 +144,11 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
         
     }//GEN-LAST:event_cbllamadafiltradaActionPerformed
 
+    private void btnseleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnseleccionarActionPerformed
+        // TODO add your handling code here:
+        this.tomarSeleccionLlamada();
+    }//GEN-LAST:event_btnseleccionarActionPerformed
+
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -140,6 +159,7 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnconsultar;
+    private javax.swing.JButton btnseleccionar;
     private javax.swing.JComboBox<String> cbllamadafiltrada;
     private com.toedter.calendar.JDateChooser fechafin;
     private com.toedter.calendar.JDateChooser fechainicio;
@@ -171,12 +191,13 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
     public void mostrarDatosLlamada(ArrayList<Llamada> llamadasFiltradas) {
         // Limpiar el JComboBox antes de agregar nuevos elementos
         cbllamadafiltrada.removeAllItems();
-
+        
         for (Llamada l : llamadasFiltradas){
             int llamadaId = l.getId();
             cbllamadafiltrada.addItem(String.valueOf(llamadaId));
             txtllamadasfiltradas.append(l.toString() + "\n");
         }
+        
     }
 
     public int tomarSeleccionLlamada() {
