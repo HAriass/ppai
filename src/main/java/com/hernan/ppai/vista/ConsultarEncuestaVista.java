@@ -296,6 +296,7 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
     Color rojo = new Color(217,83,79 );  // Un gris oscuro para el fondo
     Color blanco = Color.WHITE;
     Color textoBlanco = Color.WHITE;
+    Color negro = new Color(0,0,0);
 
     // Configurar colores de fondo
     this.getContentPane().setBackground(grisOscuro);
@@ -304,12 +305,12 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
     txtllamadasfiltradas.setBackground(blanco);
 
     // Configurar colores de texto
-    jLabel1.setForeground(azulSuave);
-    jLabel2.setForeground(azulSuave);
-    jLabel3.setForeground(azulSuave);
-    jLabel4.setForeground(azulSuave);
-    jLabel5.setForeground(azulSuave);
-    jLabel6.setForeground(azulSuave);
+    jLabel1.setForeground(negro);
+    jLabel2.setForeground(negro);
+    jLabel3.setForeground(negro);
+    jLabel4.setForeground(negro);
+    jLabel5.setForeground(negro);
+    jLabel6.setForeground(negro);
 
     // Configurar colores de botones
     btnconsultar.setBackground(azulSuave);
