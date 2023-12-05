@@ -3,6 +3,7 @@ package com.hernan.ppai.gestor;
 import com.hernan.ppai.dominio.Encuesta;
 import com.hernan.ppai.dominio.IAgregado;
 import com.hernan.ppai.dominio.IIterador;
+import com.hernan.ppai.dominio.ImpresorArchivoCSV;
 import com.hernan.ppai.dominio.IteradorEncuesta;
 import com.hernan.ppai.dominio.IteradorLlamada;
 import com.hernan.ppai.dominio.Llamada;
@@ -18,6 +19,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class GestorEncuesta implements IAgregado<Llamada>{
     
@@ -42,6 +44,8 @@ public class GestorEncuesta implements IAgregado<Llamada>{
     private int duracionLlamadaSeleccionada;
     private ArrayList<String> encuestaPregunta;
     private ArrayList<String> respuestasDelCliente;
+    private ImpresorArchivoCSV impresor;
+    private ImpresorArchivoCSV instanciaCSV;
     
 
     public void consultarEncuesta() {
@@ -268,6 +272,36 @@ public class GestorEncuesta implements IAgregado<Llamada>{
             iteradorEncuesta.siguiente();
         }
         this.pantalla.mostrarDatosEncuestaLlamada(this.nombreClienteYEstado,this.duracionLlamadaSeleccionada,this.respuestasDelCliente,this.encuestaPregunta);
+        
+        this.getFormatoImpresion();
+    }
+
+    private void getFormatoImpresion() {
+        this.pantalla.mostrarFormatoImpresionPSeleccion();
+    }
+
+    public void tomarFormato(Object formato) {
+        // Verifica si el objeto no es nulo y es una instancia de String
+        if (formato != null && formato instanceof String) {
+            // Convierte el objeto a String y compara
+            String formatoStr = formato.toString();
+
+            // Compara la cadena
+            if ("CSV".equals(formatoStr)) {
+                this.imprimirResultadoEncuesta();
+                JOptionPane.showMessageDialog(null, "Archivo CSV creado con exito", "Mensaje Informativo", JOptionPane.INFORMATION_MESSAGE);
+
+            }else{
+                JOptionPane.showMessageDialog(null, "No hay impresora", "Mensaje Informativo", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }
+
+
+
+    private void imprimirResultadoEncuesta() {
+        this.instanciaCSV = this.impresor.getInstancia();
+        this.instanciaCSV.imprimir(this.nombreClienteYEstado,this.duracionLlamadaSeleccionada,this.respuestasDelCliente,this.encuestaPregunta);
     }
     
     

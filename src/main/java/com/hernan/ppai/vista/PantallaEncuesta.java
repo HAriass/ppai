@@ -15,6 +15,7 @@ public class PantallaEncuesta extends javax.swing.JFrame {
     private Date fechaInicio;
     private Date fechaFin;
     private int llamadaSeleccionada;
+    private Object formatoImpresion;
     
     //Constructor
     public PantallaEncuesta() {
@@ -129,14 +130,23 @@ public class PantallaEncuesta extends javax.swing.JFrame {
     }
     
     public void tomarSeleccionLlamada() {
-        // Verificar si el botón fue presionado
-        // Tomar la selección de la llamada
-        this.llamadaSeleccionada = consultarEncuestaVista.tomarSeleccionLlamada();
-        gestor.tomarSeleccionLlamada(this.llamadaSeleccionada);
+        if(consultarEncuestaVista.tomarSeleccionLlamada()!=0){
+            this.llamadaSeleccionada = consultarEncuestaVista.tomarSeleccionLlamada();
+            gestor.tomarSeleccionLlamada(this.llamadaSeleccionada);
+        }
+        
     }
 
     public void mostrarDatosEncuestaLlamada(String nombreClienteYEstado, int duracionLlamadaSeleccionada, ArrayList<String> respuestasCliente, ArrayList<String> encuestaPregunta) {
         this.consultarEncuestaVista.mostrarDatosEncuesta(nombreClienteYEstado,duracionLlamadaSeleccionada,respuestasCliente,encuestaPregunta);
+    }
+
+    public void mostrarFormatoImpresionPSeleccion() {
+        if (this.consultarEncuestaVista.mostrarFormatosImpresionPSeleccion() != null){
+            this.formatoImpresion = this.consultarEncuestaVista.mostrarFormatosImpresionPSeleccion();
+            this.gestor.tomarFormato(this.formatoImpresion);
+        }
+        
     }
 
 }

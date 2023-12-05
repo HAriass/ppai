@@ -161,7 +161,7 @@ public boolean determinarEstadoInicial(Date fechaInicio, Date fechaFin, int iden
             }
             this. nombreClienteLlamada = this.clienteLlamada.getNombre();
             this.estadoActual = this.determinarEstadoActual();
-            return "Nombre cliente: "+ nombreClienteLlamada+'\n'+" Estado de la llamada: " +estadoActual;
+            return "Nombre cliente: "+ nombreClienteLlamada+'\n'+"Estado de la llamada: " +estadoActual;
         
     }
 
