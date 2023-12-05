@@ -28,7 +28,7 @@ public class ImpresorArchivoCSV {
     public void imprimir(String nombreClienteYEstado, int duracionLlamadaSeleccionada,
                          ArrayList<String> respuestasDelCliente, ArrayList<String> encuestaPregunta) {
         // Especifica la ruta completa del archivo
-        String rutaCompleta = "C:\\Users\\Hernan Arias\\Desktop\\";
+        String rutaCompleta = "C:\\Users\\coser\\Desktop\\";
         String nombreArchivo = rutaCompleta + "resultado_encuesta.csv";
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(nombreArchivo))) {

@@ -3,8 +3,14 @@ package com.hernan.ppai.vista;
 
 import com.hernan.ppai.dominio.Llamada;
 import com.hernan.ppai.dominio.RespuestaCliente;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.LineBorder;
 
 public class ConsultarEncuestaVista extends javax.swing.JFrame {
     //Atributos
@@ -34,18 +40,21 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         cbformato = new javax.swing.JComboBox<>();
         btnformato = new javax.swing.JButton();
+        btnsalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Consulta Encuestas");
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel1.setText("Fecha Inicio");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setText("Fecha Fin");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel3.setText("Ingrese Periodo");
 
+        btnconsultar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnconsultar.setText("Consultar");
         btnconsultar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -59,10 +68,12 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
             }
         });
 
+        txtllamadasfiltradas.setEditable(false);
         txtllamadasfiltradas.setColumns(20);
         txtllamadasfiltradas.setRows(5);
         jScrollPane2.setViewportView(txtllamadasfiltradas);
 
+        btnseleccionar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnseleccionar.setText("Seleccionar");
         btnseleccionar.setEnabled(false);
         btnseleccionar.addActionListener(new java.awt.event.ActionListener() {
@@ -71,14 +82,15 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
             }
         });
 
+        txtdatos.setEditable(false);
         txtdatos.setColumns(20);
         txtdatos.setRows(5);
         jScrollPane1.setViewportView(txtdatos);
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel4.setText("Selecciona llamada");
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel5.setText("Datos llamada");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -87,6 +99,7 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
         cbformato.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Impresion Papel", "CSV" }));
         cbformato.setSelectedIndex(-1);
 
+        btnformato.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnformato.setText("Imprimir");
         btnformato.setEnabled(false);
         btnformato.addActionListener(new java.awt.event.ActionListener() {
@@ -95,65 +108,74 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
             }
         });
 
+        btnsalir.setText("Salir");
+        btnsalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnsalirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnseleccionar)
-                .addGap(138, 138, 138))
             .addGroup(layout.createSequentialGroup()
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnformato, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbformato, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel3)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel1)
-                                            .addComponent(jLabel2))
-                                        .addGap(44, 44, 44)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(fechainicio, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(fechafin, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(27, 27, 27)
-                                        .addComponent(btnconsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(cbllamadafiltrada, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(93, 93, 93)
-                                        .addComponent(jLabel4))))
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cbllamadafiltrada, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(cbformato, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnformato, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(355, 355, 355))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(102, Short.MAX_VALUE))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel1)
+                                                    .addComponent(jLabel2))
+                                                .addGap(44, 44, 44)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(fechainicio, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(fechafin, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(btnconsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(42, 42, 42)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(52, 52, 52)
+                                        .addComponent(jLabel3)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                            .addComponent(btnseleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(78, 78, 78)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addGap(74, 74, 74)))))
+                        .addContainerGap(40, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnsalir, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1)
                             .addComponent(fechainicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -162,31 +184,41 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
                             .addComponent(jLabel2)
                             .addComponent(fechafin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(btnconsultar)))
-                .addGap(24, 24, 24)
-                .addComponent(cbllamadafiltrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                        .addComponent(btnconsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(67, 67, 67))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbllamadafiltrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnseleccionar)
+                    .addComponent(btnseleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
                 .addComponent(cbformato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnformato)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnformato, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnsalir, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnconsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnconsultarActionPerformed
+        this.txtdatos.setText("");
         this.btnseleccionar.setEnabled(true);
         txtllamadasfiltradas.setText("");
-        cbllamadafiltrada.removeAllItems();
+        cbllamadafiltrada.removeAllItems( );
         if (pantallaEncuesta != null) {
             this.fechaInicio = fechainicio.getDate();
             this.fechaFin = fechafin.getDate();
@@ -216,6 +248,11 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
 
         this.pantallaEncuesta.mostrarFormatoImpresionPSeleccion();
     }//GEN-LAST:event_btnformatoActionPerformed
+
+    private void btnsalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsalirActionPerformed
+        this.dispose();
+        this.pantallaEncuesta.dispose();
+    }//GEN-LAST:event_btnsalirActionPerformed
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -227,6 +264,7 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnconsultar;
     private javax.swing.JButton btnformato;
+    private javax.swing.JButton btnsalir;
     private javax.swing.JButton btnseleccionar;
     private javax.swing.JComboBox<String> cbformato;
     private javax.swing.JComboBox<String> cbllamadafiltrada;
@@ -247,8 +285,83 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
     //Metodos Propios
     public ConsultarEncuestaVista() {
         initComponents();
+        personalizarInterfaz();
         
     }
+    
+    private void personalizarInterfaz() {
+    // Personalizar colores y estilos
+    Color azulSuave = new Color(2, 117, 216);  // Un tono suave de azul
+    Color grisOscuro = new Color(247,247,247 );  // Un gris oscuro para el fondo
+    Color rojo = new Color(217,83,79 );  // Un gris oscuro para el fondo
+    Color blanco = Color.WHITE;
+    Color textoBlanco = Color.WHITE;
+
+    // Configurar colores de fondo
+    this.getContentPane().setBackground(grisOscuro);
+    cbllamadafiltrada.setBackground(blanco);
+    txtdatos.setBackground(blanco);
+    txtllamadasfiltradas.setBackground(blanco);
+
+    // Configurar colores de texto
+    jLabel1.setForeground(azulSuave);
+    jLabel2.setForeground(azulSuave);
+    jLabel3.setForeground(azulSuave);
+    jLabel4.setForeground(azulSuave);
+    jLabel5.setForeground(azulSuave);
+    jLabel6.setForeground(azulSuave);
+
+    // Configurar colores de botones
+    btnconsultar.setBackground(azulSuave);
+    btnseleccionar.setBackground(azulSuave);
+    btnformato.setBackground(azulSuave);
+    btnsalir.setBackground(rojo);
+
+    // Configurar colores de texto en botones
+    btnconsultar.setForeground(textoBlanco);
+    btnseleccionar.setForeground(textoBlanco);
+    btnformato.setForeground(textoBlanco);
+
+    int radioRedondeo = 10;
+
+    // Configurar redondeo para los botones
+    btnconsultar.setBorderPainted(false);
+    btnconsultar.setFocusPainted(false);
+    btnconsultar.setContentAreaFilled(false);
+    btnconsultar.setOpaque(true);
+    btnconsultar.setBackground(azulSuave);
+    btnconsultar.setForeground(textoBlanco);
+    btnconsultar.setBorder(BorderFactory.createLineBorder(azulSuave, 2, true));
+    btnconsultar.setPreferredSize(new Dimension(150, 40));
+
+    btnseleccionar.setBorderPainted(false);
+    btnseleccionar.setFocusPainted(false);
+    btnseleccionar.setContentAreaFilled(false);
+    btnseleccionar.setOpaque(true);
+    btnseleccionar.setBackground(azulSuave);
+    btnseleccionar.setForeground(textoBlanco);
+    btnseleccionar.setBorder(BorderFactory.createLineBorder(azulSuave, 2, true));
+    btnseleccionar.setPreferredSize(new Dimension(150, 40));
+
+    btnformato.setBorderPainted(false);
+    btnformato.setFocusPainted(false);
+    btnformato.setContentAreaFilled(false);
+    btnformato.setOpaque(true);
+    btnformato.setBackground(azulSuave);
+    btnformato.setForeground(textoBlanco);
+    btnformato.setBorder(BorderFactory.createLineBorder(azulSuave, 2, true));
+    btnformato.setPreferredSize(new Dimension(150, 40));
+    
+    btnsalir.setBorderPainted(false);
+    btnsalir.setFocusPainted(false);
+    btnsalir.setContentAreaFilled(false);
+    btnsalir.setOpaque(true);
+    btnsalir.setBackground(rojo);
+    btnsalir.setForeground(textoBlanco);
+    btnsalir.setBorder(BorderFactory.createLineBorder(rojo, 2, true));
+    btnsalir.setPreferredSize(new Dimension(150, 40));
+    }
+
 
     public Date getFechafin() {
         return fechaFin;
@@ -298,7 +411,7 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
         String duracion = String.valueOf(duracionLlamadaSeleccionada);
         this.txtdatos.append("\n");
         this.txtdatos.append("\n");
-        this.txtdatos.append(" Duracion de llamada: "+duracion);
+        this.txtdatos.append(" Duracion de llamada: "+duracion +" Seg");
         this.txtdatos.append("\n");
         this.txtdatos.append("\n");
         

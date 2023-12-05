@@ -4,8 +4,11 @@ package com.hernan.ppai.vista;
 import com.hernan.ppai.dominio.Llamada;
 import com.hernan.ppai.dominio.RespuestaCliente;
 import com.hernan.ppai.gestor.GestorEncuesta;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.BorderFactory;
 
 public class PantallaEncuesta extends javax.swing.JFrame {
     
@@ -20,10 +23,47 @@ public class PantallaEncuesta extends javax.swing.JFrame {
     //Constructor
     public PantallaEncuesta() {
         initComponents();
+        this.personalizarInterfaz();
         this.habilitarPantalla();
     }
 
-    
+    private void personalizarInterfaz() {
+    // Personalizar colores y estilos
+    Color azulSuave = new Color(2, 117, 247);  // Un tono suave de azul
+    Color negro = new Color(0, 0, 0);  // Un tono suave de azul
+    Color grisOscuro = new Color(247, 247, 247);  // Un gris oscuro para el fondo
+    Color textoBlanco = Color.WHITE;
+
+    // Configurar colores de fondo
+    this.getContentPane().setBackground(grisOscuro);
+    // Configurar colores de texto
+    jLabel1.setForeground(negro);
+
+    // Configurar colores de botones
+    btnconsultarencuesta.setBackground(azulSuave);
+    // Configurar colores de texto en botones
+    btnconsultarencuesta.setForeground(textoBlanco);
+
+    int radioRedondeo = 10;
+
+    // Configurar redondeo para los botones
+    btnconsultarencuesta.setBorderPainted(false);
+    btnconsultarencuesta.setFocusPainted(false);
+    btnconsultarencuesta.setContentAreaFilled(false);
+    btnconsultarencuesta.setOpaque(true);
+    btnconsultarencuesta.setBackground(azulSuave);
+    btnconsultarencuesta.setForeground(textoBlanco);
+
+    // Agregar margen negro
+    int margen = 2; // Puedes ajustar el tamaño del margen según tus preferencias
+    btnconsultarencuesta.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(azulSuave, 2), // Borde azul
+            BorderFactory.createEmptyBorder(margen, margen, margen, margen) // Margen negro
+    ));
+    btnconsultarencuesta.setPreferredSize(new Dimension(150, 40));
+}
+
+
     // Metodos netbeans
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -33,9 +73,12 @@ public class PantallaEncuesta extends javax.swing.JFrame {
         btnconsultarencuesta = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Consulta Encuestas");
 
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel1.setText("Sistema de consulta de encuestas IVR");
 
+        btnconsultarencuesta.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnconsultarencuesta.setText("Consultar Encuesta");
         btnconsultarencuesta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -48,23 +91,20 @@ public class PantallaEncuesta extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(87, 87, 87)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(84, 84, 84)
-                        .addComponent(btnconsultarencuesta)))
-                .addContainerGap(60, Short.MAX_VALUE))
+                    .addComponent(jLabel1)
+                    .addComponent(btnconsultarencuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 95, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(26, 26, 26)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                .addComponent(btnconsultarencuesta)
-                .addGap(29, 29, 29))
+                .addGap(29, 29, 29)
+                .addComponent(btnconsultarencuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         pack();
@@ -74,6 +114,7 @@ public class PantallaEncuesta extends javax.swing.JFrame {
        // ConsultarEncuestaVista vistaConsultar = new ConsultarEncuestaVista(); // Esto no es necesario
         consultarEncuestaVista.setPantallaEncuesta(this);  // Establecer la instancia correcta
         consultarEncuestaVista.setVisible(true);
+        consultarEncuestaVista.setLocationRelativeTo(null);
         gestor.consultarEncuesta();
         this.dispose();
     }//GEN-LAST:event_btnconsultarencuestaActionPerformed
@@ -96,6 +137,7 @@ public class PantallaEncuesta extends javax.swing.JFrame {
     //Metodos propios
     public void habilitarPantalla(){
         this.setVisible(true);
+        this.setLocationRelativeTo(null);
         
     }
     public void solicitarPeriodoLlamada() {
