@@ -98,6 +98,11 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
 
         cbformato.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Impresion Papel", "CSV" }));
         cbformato.setSelectedIndex(-1);
+        cbformato.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbformatoActionPerformed(evt);
+            }
+        });
 
         btnformato.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnformato.setText("Imprimir");
@@ -239,6 +244,7 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
 
     private void btnseleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnseleccionarActionPerformed
         // TODO add your handling code here:
+        this.cbformato.setSelectedItem(null);
         this.btnformato.setEnabled(true);
         this.txtdatos.setText("");
         this.pantallaEncuesta.tomarSeleccionLlamada();
@@ -253,6 +259,10 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
         this.dispose();
         this.pantallaEncuesta.dispose();
     }//GEN-LAST:event_btnsalirActionPerformed
+
+    private void cbformatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbformatoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbformatoActionPerformed
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -437,6 +447,7 @@ public class ConsultarEncuestaVista extends javax.swing.JFrame {
     }
 
     private Object tomarFormato() {
+        
         if(this.cbformato.getSelectedItem() != null){
             return this.cbformato.getSelectedItem();
         }

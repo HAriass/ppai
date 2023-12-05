@@ -1,16 +1,13 @@
 package com.hernan.ppai.dominio;
 
 import com.hernan.ppai.gestor.GestorEncuesta;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.Date;
 import com.hernan.ppai.sql.ConexionSql;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-public class Llamada implements IAgregado<RespuestaCliente>{
+public class Llamada extends SuperObjetoPersistente implements IAgregado<RespuestaCliente> {
+    private SuperObjetoPersistente persistencia = new SuperObjetoPersistente();
     private int id;
     private int duracion;
     private boolean encuestaEnviada;
@@ -61,104 +58,38 @@ public class Llamada implements IAgregado<RespuestaCliente>{
 
     }
 
-public boolean determinarEstadoInicial(Date fechaInicio, Date fechaFin, int identificador) {
-    Connection connection = conexion.conectar();
+    public boolean determinarEstadoInicial(Date fechaInicio, Date fechaFin, int identificador) {
 
-    if (connection != null) {
-        try {
-            // Crear una consulta preparada con un parámetro
-            String sql = "SELECT * FROM cambioestado WHERE llamada = ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                // Establecer el valor del parámetro
-                preparedStatement.setInt(1, identificador);  // Reemplaza tuId con el valor real del ID
+        this.listaCambioEstado = this.persistencia.consultaEstadoInicial(identificador);
 
-                // Ejecutar la consulta y obtener los resultados
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    // Iterar sobre los resultados y mostrar la información
-                    while (resultSet.next()) {
-                        Timestamp fechaHoraInicio = resultSet.getTimestamp("fechahorainicio");
-                        int llamada = resultSet.getInt("llamada");
-                        int id = resultSet.getInt("id");
-                        int estado = resultSet.getInt("estado");
-                        CambioEstado cambioEstado = new CambioEstado(fechaHoraInicio, llamada, id,estado);
-                        
+        Timestamp fechaMasTemprana = null;
 
-                        this.listaCambioEstado.add(cambioEstado);
-                    }
+        // Verificar si listaCambioEstado no está vacía antes de intentar obtener la fechaMasTemprana
+        if (!listaCambioEstado.isEmpty()) {
+            for (CambioEstado cambioEstado : listaCambioEstado) {
+                Timestamp fechaActual = (Timestamp) cambioEstado.getFechaHoraInicio();
+                // Si la fechaMasTemprana aún no se ha establecido o la fechaActual es más temprana
+                if (fechaMasTemprana == null || fechaActual.before(fechaMasTemprana)) {
+                    fechaMasTemprana = fechaActual;
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            // Cerrar la conexión en el bloque finally para asegurar que se cierre incluso en caso de excepción
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        }
+
+        // Verificar si fechaMasTemprana es null antes de intentar usarla
+        if (fechaMasTemprana != null) {
+            // Convertir Timestamp a Date
+            Date fechaMasTempranaDate = new Date(fechaMasTemprana.getTime());
+
+            // Verificar si fechaMasTempranaDate está entre fechaInicio y fechaFin
+            return fechaMasTempranaDate.after(fechaInicio) && fechaMasTempranaDate.before(fechaFin);
+        } else {
+            // Manejar el caso cuando fechaMasTemprana es null
+            return false;
         }
     }
-
-    Timestamp fechaMasTemprana = null;
-
-    // Verificar si listaCambioEstado no está vacía antes de intentar obtener la fechaMasTemprana
-    if (!listaCambioEstado.isEmpty()) {
-        for (CambioEstado cambioEstado : listaCambioEstado) {
-            Timestamp fechaActual = (Timestamp) cambioEstado.getFechaHoraInicio();
-            // Si la fechaMasTemprana aún no se ha establecido o la fechaActual es más temprana
-            if (fechaMasTemprana == null || fechaActual.before(fechaMasTemprana)) {
-                fechaMasTemprana = fechaActual;
-            }
-        }
-    }
-
-    // Verificar si fechaMasTemprana es null antes de intentar usarla
-    if (fechaMasTemprana != null) {
-        // Convertir Timestamp a Date
-        Date fechaMasTempranaDate = new Date(fechaMasTemprana.getTime());
-
-        // Verificar si fechaMasTempranaDate está entre fechaInicio y fechaFin
-        return fechaMasTempranaDate.after(fechaInicio) && fechaMasTempranaDate.before(fechaFin);
-    } else {
-        // Manejar el caso cuando fechaMasTemprana es null
-        return false;
-    }
-}
 
     public String getNombreClienteDeLlamada() {
-        
-        Connection connection = conexion.conectar();
-
-            if (connection != null) {
-                try {
-                    // Crear una consulta preparada con un parámetro
-                    String sql = "SELECT * FROM cliente WHERE id = ?";
-                    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                        // Establecer el valor del parámetro
-                        preparedStatement.setInt(1, this.cliente);  // Reemplaza tuId con el valor real del ID
-
-                        // Ejecutar la consulta y obtener los resultados
-                        try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                            // Iterar sobre los resultados y mostrar la información
-                            while (resultSet.next()) {
-                                int id = resultSet.getInt("id");
-                                String nombre = resultSet.getString("nombre");
-                                this.clienteLlamada = new Cliente(id,nombre);
-                            }
-                            
-                        }
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } finally {
-                    // Cerrar la conexión en el bloque finally para asegurar que se cierre incluso en caso de excepción
-                    try {
-                        connection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+            this.clienteLlamada = this.persistencia.consultaNombreClienteLlamada(this.cliente);
             this. nombreClienteLlamada = this.clienteLlamada.getNombre();
             this.estadoActual = this.determinarEstadoActual();
             return "Nombre cliente: "+ nombreClienteLlamada+'\n'+"Estado de la llamada: " +estadoActual;
@@ -167,43 +98,9 @@ public boolean determinarEstadoInicial(Date fechaInicio, Date fechaFin, int iden
 
     private String determinarEstadoActual() {
         
-        Connection connection = conexion.conectar();
-
-            if (connection != null) {
-                try {
-                    // Crear una consulta preparada con un parámetro
-                    String sql = "SELECT * FROM cambioestado WHERE llamada = ?";
-                    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                        // Establecer el valor del parámetro
-                        preparedStatement.setInt(1, this.id);  // Reemplaza tuId con el valor real del ID
-
-                        // Ejecutar la consulta y obtener los resultados
-                        try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                            // Iterar sobre los resultados y mostrar la información
-                            while (resultSet.next()) {
-                                int id = resultSet.getInt("id");
-                                Timestamp fechaHoraInicio = resultSet.getTimestamp("fechahorainicio");
-                                int llamada = resultSet.getInt("llamada");
-                                int estado = resultSet.getInt("estado");
-                                CambioEstado cambioEstado2 = new CambioEstado(fechaHoraInicio, llamada, id, estado);
-                                this.listaCambioEstado2.add(cambioEstado2);
-                            }
-                            
-                        }
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } finally {
-                    // Cerrar la conexión en el bloque finally para asegurar que se cierre incluso en caso de excepción
-                    try {
-                        connection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+            this.listaCambioEstado2 = this.persistencia.consultaEstadoInicial(this.id);
             
-           CambioEstado cambioEstadoConFechaMasReciente = null;
+            CambioEstado cambioEstadoConFechaMasReciente = null;
 
             for (CambioEstado cambioEstado2 : listaCambioEstado2) {
                 Timestamp fechaActual = cambioEstado2.getFechaHoraInicio();

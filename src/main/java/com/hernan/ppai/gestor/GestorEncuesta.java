@@ -8,21 +8,17 @@ import com.hernan.ppai.dominio.IteradorEncuesta;
 import com.hernan.ppai.dominio.IteradorLlamada;
 import com.hernan.ppai.dominio.Llamada;
 import com.hernan.ppai.dominio.RespuestaCliente;
+import com.hernan.ppai.dominio.SuperObjetoPersistente;
 import com.hernan.ppai.sql.ConexionSql;
 import java.util.Date;
 import com.hernan.ppai.vista.ConsultarEncuestaVista;
 import com.hernan.ppai.vista.PantallaEncuesta;
 import defaultPackages.Gestor;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-public class GestorEncuesta implements IAgregado<Llamada>{
-    
+public class GestorEncuesta extends SuperObjetoPersistente implements IAgregado<Llamada>{
+    private SuperObjetoPersistente persistencia = new SuperObjetoPersistente();
     PantallaEncuesta pantalla;
     private Date fechaInicio;
     private Date fechaFin;
@@ -63,38 +59,7 @@ public class GestorEncuesta implements IAgregado<Llamada>{
     
     public void buscarLlamadaConEncuesta(){
         
-        Connection connection = conexion.conectar();
-        if (connection != null) {
-            try {
-                // Crear una declaración SQL
-                Statement statement = connection.createStatement();
-
-                // Ejecutar la consulta SQL
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM llamada");
-
-                // Iterar sobre los resultados y mostrar la información
-                while (resultSet.next()) {
-                    int id = resultSet.getInt("id");
-                    int duracion = resultSet.getInt("duracion");
-                    boolean encuestaEnviada = resultSet.getBoolean("encuesta enviada");
-                    int cliente = resultSet.getInt("cliente");
-
-                    Llamada llamada = new Llamada(id, duracion, encuestaEnviada, cliente);
-
-                    this.listaLlamadas.add(llamada);
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    // Cerrar la conexión
-                    connection.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        this.listaLlamadas = this.persistencia.consultaLlamadaConEncuesta();
         filtros.clear();
         if (fechaInicio != null && fechaFin != null) {
             this.filtros.add(fechaInicio);
@@ -137,45 +102,10 @@ public class GestorEncuesta implements IAgregado<Llamada>{
 
     private void buscarDatosLlamada(int llamadaSeleccionada) {
         
-        Connection connection = conexion.conectar();
-
-            if (connection != null) {
-                try {
-                    // Crear una consulta preparada con un parámetro
-                    String sql = "SELECT * FROM llamada WHERE id = ?";
-                    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                        // Establecer el valor del parámetro
-                        preparedStatement.setInt(1, llamadaSeleccionada);  // Reemplaza tuId con el valor real del ID
-
-                        // Ejecutar la consulta y obtener los resultados
-                        try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                            // Iterar sobre los resultados y mostrar la información
-                            while (resultSet.next()) {
-                                int id = resultSet.getInt("id");
-                                int duracion = resultSet.getInt("duracion");
-                                boolean encuestaEnviada =resultSet.getBoolean("encuesta enviada");
-                                int cliente = resultSet.getInt("cliente");
-                                this.seleccionLlamada = new Llamada(id, duracion, encuestaEnviada,cliente);
-                                
-                            }
-                        }
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } finally {
-                    // Cerrar la conexión en el bloque finally para asegurar que se cierre incluso en caso de excepción
-                    try {
-                        connection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            
-            
-            this.nombreClienteYEstado = this.seleccionLlamada.getNombreClienteDeLlamada();
-            this.duracionLlamadaSeleccionada = this.getDuracion();
-            this.obtenerDatosEncuesta();
+        this.seleccionLlamada = this.persistencia.consultaBuscarDatosLlamada(llamadaSeleccionada);
+        this.nombreClienteYEstado = this.seleccionLlamada.getNombreClienteDeLlamada();
+        this.duracionLlamadaSeleccionada = this.getDuracion();
+        this.obtenerDatosEncuesta();
         
     }
     
@@ -192,78 +122,15 @@ public class GestorEncuesta implements IAgregado<Llamada>{
     }
 
     private ArrayList<RespuestaCliente> buscarRespuestasBD() {
-        
-        Connection connection = conexion.conectar();
-
-            if (connection != null) {
-                try {
-                    // Crear una consulta preparada con un parámetro
-                    String sql = "SELECT * FROM respuestacliente";
-                    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
-                        // Ejecutar la consulta y obtener los resultados
-                        try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                            // Iterar sobre los resultados y mostrar la información
-                            while (resultSet.next()) {
-                                int id = resultSet.getInt("id");
-                                String descripcion = resultSet.getString("descripcion");
-                                int llamada = resultSet.getInt("llamada");
-                                this.respuestasCliente.add(new RespuestaCliente(id, descripcion, llamada));
-                            }
-                        }
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } finally {
-                    // Cerrar la conexión en el bloque finally para asegurar que se cierre incluso en caso de excepción
-                    try {
-                        connection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        
+        this.respuestasCliente = this.persistencia.consultaTodasRespuestasCliente();
         return this.respuestasCliente;
         
     }
 
     public void buscarDescripcionEncuestas() {
-        
-        Connection connection = conexion.conectar();
-
-            if (connection != null) {
-                try {
-                    // Crear una consulta preparada con un parámetro
-                    String sql = "SELECT * FROM encuesta";
-                    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
-                        // Ejecutar la consulta y obtener los resultados
-                        try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                            // Iterar sobre los resultados y mostrar la información
-                            while (resultSet.next()) {
-                                int id = resultSet.getInt("id");
-                                String descripcion = resultSet.getString("descripcion");
-                                this.listaEncuestas.add(new Encuesta(id, descripcion));
-                            }
-                        }
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                } finally {
-                    // Cerrar la conexión en el bloque finally para asegurar que se cierre incluso en caso de excepción
-                    try {
-                        connection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            
+        this.listaEncuestas = this.persistencia.consultaBuscarDescripcionEncuesta();
         this.iteradorEncuesta = (IteradorEncuesta) gestor.crearIterador(listaEncuestas);
-        
-        
-        
+
         this.iteradorEncuesta.primero();
         while (!iteradorEncuesta.haTerminado()) {
             Encuesta encuestaActual = iteradorEncuesta.actual(filtrosEncuesta);
