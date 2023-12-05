@@ -45,9 +45,10 @@ public class IteradorLlamada implements IIterador<Llamada> {
 
     public boolean cumpleFiltro(ArrayList<Object> filtros, Object llamadaActual, int id) {
         if (llamadaActual instanceof Llamada) {
+            
             // Verificar si la llamada actual cumple con el período
             boolean cumplePeriodo = ((Llamada) llamadaActual).esDePeriodo((Date) filtros.get(0), (Date) filtros.get(1), id);
-
+            
             // Verificar si la llamada actual tiene encuesta respondida
             boolean encuestaRespondida = ((Llamada) llamadaActual).tieneEncuestaRespondida();
 

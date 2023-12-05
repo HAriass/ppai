@@ -1,5 +1,6 @@
 package com.hernan.ppai.dominio;
 
+import com.hernan.ppai.gestor.GestorEncuesta;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +21,7 @@ public class Llamada implements IAgregado<RespuestaCliente>{
     private ArrayList<CambioEstado> listaCambioEstado2 = new ArrayList<>();
     private String estadoActual;
     private ArrayList<Object> filtros = new ArrayList<>();
-
+    private GestorEncuesta gestor = new GestorEncuesta();
     
     ConexionSql conexion = new ConexionSql();
     private ArrayList<RespuestaCliente> respuestasCliente;
@@ -160,7 +161,7 @@ public boolean determinarEstadoInicial(Date fechaInicio, Date fechaFin, int iden
             }
             this. nombreClienteLlamada = this.clienteLlamada.getNombre();
             this.estadoActual = this.determinarEstadoActual();
-            return ""+ nombreClienteLlamada + estadoActual;
+            return "Nombre cliente: "+ nombreClienteLlamada+'\n'+" Estado de la llamada: " +estadoActual;
         
     }
 
@@ -222,7 +223,7 @@ public boolean determinarEstadoInicial(Date fechaInicio, Date fechaFin, int iden
         return iteradorRespuesta;
     }
 
-    public void getRespuestas(ArrayList<RespuestaCliente> respuestasCliente, int idLlamada) {
+    public ArrayList<String> getRespuestas(ArrayList<RespuestaCliente> respuestasCliente, int idLlamada) {
         this.filtros.add(idLlamada);
         this.respuestasCliente = respuestasCliente;
         this.iteradorRespuesta = (IteradorRespuesta) this.crearIterador(this.respuestasCliente);
@@ -234,8 +235,7 @@ public boolean determinarEstadoInicial(Date fechaInicio, Date fechaFin, int iden
             this.listaRespuestasCliente = respuestaActual.getRespuestaSeleccionada(idLlamada);
             this.iteradorRespuesta.siguiente();
         }
-        System.out.println(this.listaRespuestasCliente);
-        
+        return this.listaRespuestasCliente;
     }
 
 } 

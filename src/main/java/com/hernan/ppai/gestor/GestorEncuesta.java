@@ -1,7 +1,9 @@
 package com.hernan.ppai.gestor;
 
+import com.hernan.ppai.dominio.Encuesta;
 import com.hernan.ppai.dominio.IAgregado;
 import com.hernan.ppai.dominio.IIterador;
+import com.hernan.ppai.dominio.IteradorEncuesta;
 import com.hernan.ppai.dominio.IteradorLlamada;
 import com.hernan.ppai.dominio.Llamada;
 import com.hernan.ppai.dominio.RespuestaCliente;
@@ -9,6 +11,7 @@ import com.hernan.ppai.sql.ConexionSql;
 import java.util.Date;
 import com.hernan.ppai.vista.ConsultarEncuestaVista;
 import com.hernan.ppai.vista.PantallaEncuesta;
+import defaultPackages.Gestor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,6 +26,7 @@ public class GestorEncuesta implements IAgregado<Llamada>{
     private Date fechaFin;
     private ArrayList<Llamada> listaLlamadas = new ArrayList<>();
     private ArrayList<Object> filtros = new ArrayList<>();
+    private ArrayList<Object> filtrosEncuesta = new ArrayList<>();
     private Llamada seleccionLlamada;
     private String nombreClienteYEstado;
     
@@ -32,6 +36,13 @@ public class GestorEncuesta implements IAgregado<Llamada>{
     private IteradorLlamada iteradorLlamada;
     private ArrayList<Llamada> llamadasFiltradas = new ArrayList<>();
     private ArrayList<RespuestaCliente> respuestasCliente = new ArrayList<>();
+    private ArrayList<Encuesta> listaEncuestas = new ArrayList<>();
+    private Gestor gestor = new Gestor();
+    private IteradorEncuesta iteradorEncuesta;
+    private int duracionLlamadaSeleccionada;
+    private ArrayList<String> encuestaPregunta;
+    private ArrayList<String> respuestasDelCliente;
+    
 
     public void consultarEncuesta() {
         this.buscarPeriodo();
@@ -157,8 +168,9 @@ public class GestorEncuesta implements IAgregado<Llamada>{
                 }
             }
             
+            
             this.nombreClienteYEstado = this.seleccionLlamada.getNombreClienteDeLlamada();
-            int duracionLlamadaSeleccionada = this.getDuracion();
+            this.duracionLlamadaSeleccionada = this.getDuracion();
             this.obtenerDatosEncuesta();
         
     }
@@ -170,7 +182,9 @@ public class GestorEncuesta implements IAgregado<Llamada>{
     private void obtenerDatosEncuesta() {
         respuestasCliente = this.buscarRespuestasBD();
         int idLlamada = seleccionLlamada.getId();
-        this.seleccionLlamada.getRespuestas(respuestasCliente,idLlamada);
+        this.respuestasDelCliente = this.seleccionLlamada.getRespuestas(respuestasCliente,idLlamada);
+        this.buscarDescripcionEncuestas();
+        
     }
 
     private ArrayList<RespuestaCliente> buscarRespuestasBD() {
@@ -205,15 +219,58 @@ public class GestorEncuesta implements IAgregado<Llamada>{
                     }
                 }
             }
-            
+        
         return this.respuestasCliente;
         
     }
 
+    public void buscarDescripcionEncuestas() {
         
+        Connection connection = conexion.conectar();
+
+            if (connection != null) {
+                try {
+                    // Crear una consulta preparada con un parámetro
+                    String sql = "SELECT * FROM encuesta";
+                    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+                        // Ejecutar la consulta y obtener los resultados
+                        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                            // Iterar sobre los resultados y mostrar la información
+                            while (resultSet.next()) {
+                                int id = resultSet.getInt("id");
+                                String descripcion = resultSet.getString("descripcion");
+                                this.listaEncuestas.add(new Encuesta(id, descripcion));
+                            }
+                        }
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } finally {
+                    // Cerrar la conexión en el bloque finally para asegurar que se cierre incluso en caso de excepción
+                    try {
+                        connection.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            
+        this.iteradorEncuesta = (IteradorEncuesta) gestor.crearIterador(listaEncuestas);
+        
+        
+        
+        this.iteradorEncuesta.primero();
+        while (!iteradorEncuesta.haTerminado()) {
+            Encuesta encuestaActual = iteradorEncuesta.actual(filtrosEncuesta);
+            this.encuestaPregunta = encuestaActual.getDescripcion();
+            
+            iteradorEncuesta.siguiente();
+        }
+        this.pantalla.mostrarDatosEncuestaLlamada(this.nombreClienteYEstado,this.duracionLlamadaSeleccionada,this.respuestasDelCliente,this.encuestaPregunta);
+    }
+    
+    
+    
 }
-    
-    
-    
-    
-    
+

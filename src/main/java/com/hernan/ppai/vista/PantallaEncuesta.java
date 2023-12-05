@@ -2,6 +2,7 @@
 package com.hernan.ppai.vista;
 
 import com.hernan.ppai.dominio.Llamada;
+import com.hernan.ppai.dominio.RespuestaCliente;
 import com.hernan.ppai.gestor.GestorEncuesta;
 import java.util.ArrayList;
 import java.util.Date;
@@ -132,6 +133,10 @@ public class PantallaEncuesta extends javax.swing.JFrame {
         // Tomar la selección de la llamada
         this.llamadaSeleccionada = consultarEncuestaVista.tomarSeleccionLlamada();
         gestor.tomarSeleccionLlamada(this.llamadaSeleccionada);
+    }
+
+    public void mostrarDatosEncuestaLlamada(String nombreClienteYEstado, int duracionLlamadaSeleccionada, ArrayList<String> respuestasCliente, ArrayList<String> encuestaPregunta) {
+        this.consultarEncuestaVista.mostrarDatosEncuesta(nombreClienteYEstado,duracionLlamadaSeleccionada,respuestasCliente,encuestaPregunta);
     }
 
 }
