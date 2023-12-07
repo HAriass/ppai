@@ -28,7 +28,7 @@ public class ImpresorArchivoCSV {
     public void imprimir(String nombreClienteYEstado, int duracionLlamadaSeleccionada,
                          ArrayList<String> respuestasDelCliente, ArrayList<String> encuestaPregunta) {
         // Especifica la ruta completa del archivo
-        String rutaCompleta = "C:\\Users\\Hernan Arias\\Desktop\\";
+        String rutaCompleta = "C:\\Users\\coser\\Desktop\\";
         String nombreArchivo = rutaCompleta + "resultado_encuesta.csv";
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(nombreArchivo))) {
@@ -44,7 +44,7 @@ public class ImpresorArchivoCSV {
 
             // Preguntas específicas de la encuesta intercaladas con respuestas
             for (int i = 1; i < encuestaPregunta.size(); i++) {
-                writer.println(indice++ + ") Pregunta de la Encuesta, " + encuestaPregunta.get(i));
+                writer.println(indice++ + ") Pregunta de la Encuesta, " +"¿"+ encuestaPregunta.get(i)+"?");
                 writer.println(indice++ + ") Respuesta del Cliente, " + respuestasDelCliente.get(i - 1)+'\n');
             }
 
